@@ -1,0 +1,24 @@
+{
+  "name": "zeroblock-lite-mv3",
+  "version": "1.0.0",
+  "description": "Zero-Config High-Performance Chrome Manifest V3 Ad-Blocker inspired by uBlock Origin Lite",
+  "main": "src/background.js",
+  "type": "module",
+  "scripts": {
+    "build:filters": "node scripts/build-filters.js",
+    "test:rules": "node scripts/test-rules.js",
+    "test:e2e": "node scripts/test-e2e.js",
+    "test": "node scripts/test-e2e.js",
+    "package": "node scripts/package-extension.js",
+    "build": "node scripts/build-filters.js && node scripts/test-rules.js && node scripts/package-extension.js"
+  },
+  "keywords": [
+    "adblock",
+    "declarativeNetRequest",
+    "manifest-v3",
+    "ublock-lite",
+    "privacy"
+  ],
+  "author": "Senior Extension Developer",
+  "license": "GPL-3.0"
+}
