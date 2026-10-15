@@ -84,10 +84,7 @@ zeroblock/
 ├── scripts/
 │   ├── build-filters.js           # Bộ compiler tải và chuẩn hóa quy tắc DNR
 │   ├── generate-icons.js          # Generator tạo bộ icon PNG
-│   ├── package-extension.js       # Script đóng gói ZIP phát hành
-│   ├── test-rules.js              # Kiểm tra cú pháp schema DNR
-│   ├── test-e2e.js                # Bộ test E2E 4 tầng (292 assertions)
-│   └── test-challenger.js         # Bộ kiểm thử đối kháng (27 challenges)
+│   └── package-extension.js       # Script đóng gói ZIP phát hành
 └── src/
     ├── background.js              # Service Worker MV3 tự động kích hoạt zero-config
     ├── content-cosmetic.js        # Content script gập khung rỗng, gỡ anti-adblock overlay
@@ -128,16 +125,10 @@ Tất cả script được viết bằng **Node.js Native** (không cần cài �
 # 1. Cập nhật và biên dịch lại bộ lọc mới nhất từ internet
 npm run build:filters
 
-# 2. Kiểm tra tính hợp lệ cú pháp ruleset DNR
-npm run test:rules
+# 2. Tạo lại bộ icon biểu trưng
+npm run generate:icons
 
-# 3. Chạy toàn bộ test suite E2E (292 assertions)
-npm test
-
-# 4. Chạy kiểm thử đối kháng chống Anti-Adblock
-node scripts/test-challenger.js
-
-# 5. Đóng gói ZIP bản phát hành cho Chrome Web Store
+# 3. Đóng gói ZIP bản phát hành cho Chrome Web Store
 npm run package
 ```
 

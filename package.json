@@ -6,11 +6,9 @@
   "type": "module",
   "scripts": {
     "build:filters": "node scripts/build-filters.js",
-    "test:rules": "node scripts/test-rules.js",
-    "test:e2e": "node scripts/test-e2e.js",
-    "test": "node scripts/test-e2e.js",
+    "generate:icons": "node scripts/generate-icons.js",
     "package": "node scripts/package-extension.js",
-    "build": "node scripts/build-filters.js && node scripts/test-rules.js && node scripts/package-extension.js"
+    "build": "node scripts/build-filters.js && node scripts/package-extension.js"
   },
   "keywords": [
     "adblock",

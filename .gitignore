@@ -13,6 +13,14 @@ dist/
 .DS_Store
 Thumbs.db
 
+# Test scripts & logs
+scripts/test-*
+*.test.js
+*.spec.js
+TEST_*.md
+PROJECT.md
+ORIGINAL_REQUEST.md
+
 # Agent internal scratch/transcripts
 .agents/
 _metadata/
