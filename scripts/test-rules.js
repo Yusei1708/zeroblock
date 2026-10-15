@@ -182,6 +182,22 @@ for (const relPath of ruleFiles) {
               regexErrorCount++;
               fileErrors++;
             }
+
+            // Check 2.5: Ensure ZERO rules violate Chromium DNR urlFilter anchor rules
+            if (
+              uf.startsWith('||*') ||
+              uf.startsWith('||.') ||
+              uf.startsWith('||/') ||
+              uf.startsWith('||:') ||
+              uf.startsWith('|*') ||
+              uf.endsWith('*|') ||
+              uf.endsWith('^|') ||
+              uf.endsWith('|^') ||
+              uf.includes('**')
+            ) {
+              reportError(`Rule ID ${rule.id} violates Chrome urlFilter syntax: "${uf}"`);
+              fileErrors++;
+            }
           }
         }
 

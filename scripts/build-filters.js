@@ -340,8 +340,27 @@ function parseFilterLine(line, idRef, cosmeticSelectors) {
   // Regex escape check: Catch \d, \w, \s, \b escape sequences properly
   if (/\\[dwsb]/i.test(pattern)) return null;
 
-  // 5. Pattern Sanitization & ASCII verification
+  // 5. Pattern Sanitization & Normalization
   let urlFilter = pattern;
+
+  // Normalize redundant wildcards: ||*.domain.com -> ||domain.com
+  if (urlFilter.startsWith('||*.')) {
+    urlFilter = '||' + urlFilter.slice(4);
+  } else if (urlFilter.startsWith('||*')) {
+    urlFilter = '||' + urlFilter.slice(3);
+  } else if (urlFilter.startsWith('||.')) {
+    urlFilter = '||' + urlFilter.slice(3);
+  }
+
+  // Normalize leading |* -> *
+  if (urlFilter.startsWith('|*')) {
+    urlFilter = urlFilter.slice(1);
+  }
+
+  // Normalize trailing *| -> *
+  if (urlFilter.endsWith('*|')) {
+    urlFilter = urlFilter.slice(0, -1);
+  }
 
   // Only allow ASCII printable characters (0x20 - 0x7E)
   if (!/^[\x20-\x7E]+$/.test(urlFilter)) {
@@ -350,6 +369,23 @@ function parseFilterLine(line, idRef, cosmeticSelectors) {
 
   // Prohibit URL fragments (#), unparsed commas (,), or invalid consecutive wildcards (**)
   if (urlFilter.includes('#') || urlFilter.includes(',') || urlFilter.includes('**')) {
+    return null;
+  }
+
+  // Prohibit invalid Chrome DeclarativeNetRequest urlFilter anchor combinations:
+  if (
+    urlFilter.startsWith('||*') ||
+    urlFilter.startsWith('||.') ||
+    urlFilter.startsWith('||/') ||
+    urlFilter.startsWith('||:') ||
+    urlFilter.startsWith('|*') ||
+    urlFilter.endsWith('*|') ||
+    urlFilter.endsWith('^|') ||
+    urlFilter.endsWith('|^') ||
+    urlFilter === '||' ||
+    urlFilter === '|' ||
+    urlFilter.length < 2
+  ) {
     return null;
   }
 
