@@ -433,17 +433,42 @@ function parseFilterLine(line, idRef, cosmeticSelectors) {
       resourceTypes.push(TYPE_MAP[optLower]);
     } else if (optLower.startsWith('~') && TYPE_MAP[optLower.slice(1)]) {
       excludedResourceTypes.push(TYPE_MAP[optLower.slice(1)]);
-    } else if (['match-case', 'popup', 'csp', 'redirect', 'rewrite', 'badfilter', 'genericblock', 'generichide', 'elemhide'].includes(optLower)) {
-      if (['popup', 'csp', 'redirect', 'rewrite', 'badfilter'].includes(optLower)) {
-        skipRule = true;
-        break;
-      }
+    } else if (
+      optLower.startsWith('replace=') ||
+      optLower.startsWith('removeparam=') ||
+      optLower.startsWith('redirect-rule=') ||
+      optLower.startsWith('redirect=') ||
+      optLower.startsWith('rewrite=') ||
+      optLower.startsWith('urltransform=') ||
+      optLower.startsWith('header=') ||
+      optLower.startsWith('queryprune=') ||
+      optLower.startsWith('permissions=') ||
+      optLower.startsWith('cookie=') ||
+      ['popup', 'csp', 'redirect', 'rewrite', 'badfilter', 'cname', 'stealth', 'denyallow'].includes(optLower)
+    ) {
+      skipRule = true;
+      break;
     }
   }
 
   if (skipRule) return null;
 
-  // 7. Condition Construction
+  // 7. YouTube Playback Protection Guard:
+  // Never block core YouTube video player / playback endpoints via DNR.
+  // YouTube ad handling is handled smoothly via client-side stealth engine.
+  const isYouTubePlayback =
+    urlFilter.includes('youtube.com/youtubei/v1/player') ||
+    urlFilter.includes('youtube.com/watch?') ||
+    urlFilter.includes('youtube.com/playlist') ||
+    urlFilter.includes('youtube.com/youtubei/v1/get_watch') ||
+    urlFilter.includes('googlevideo.com/videoplayback') ||
+    urlFilter.includes('googlevideo.com/initplayback');
+
+  if (isYouTubePlayback && !isException) {
+    return null;
+  }
+
+  // 8. Condition Construction
   const condition = { urlFilter };
 
   if (resourceTypes.length > 0) {

@@ -106,6 +106,15 @@
         video.play().catch(() => {});
       }
     }
+
+    // Auto-recover offline connection error screen if present
+    const offlineNotice = document.querySelector('yt-connection-error-view-model, ytd-offline-promo-renderer, [aria-label="Retry"]');
+    if (offlineNotice) {
+      const retryBtn = offlineNotice.querySelector ? offlineNotice.querySelector('button') : offlineNotice;
+      if (retryBtn && typeof retryBtn.click === 'function') {
+        simulateClick(retryBtn);
+      }
+    }
   }
 
   /**
