@@ -34,6 +34,7 @@ console.log(`📦 Packaging ZeroBlock Lite v${version}...`);
 const filesToInclude = [
   'manifest.json',
   'icons/icon16.png',
+  'icons/icon32.png',
   'icons/icon48.png',
   'icons/icon128.png',
   'rules/ads_rules.json',

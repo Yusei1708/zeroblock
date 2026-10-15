@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Outer Glow -->
+    <radialGradient id="bgGlow" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#0284c7" stop-opacity="0.35"/>
+      <stop offset="60%" stop-color="#0f172a" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Shield Border Gradient -->
+    <linearGradient id="shieldBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="35%" stop-color="#2563eb"/>
+      <stop offset="70%" stop-color="#4f46e5"/>
+      <stop offset="100%" stop-color="#9333ea"/>
+    </linearGradient>
+
+    <!-- Shield Core Glass Gradient -->
+    <linearGradient id="shieldCore" x1="20%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.95"/>
+      <stop offset="50%" stop-color="#0f172a" stop-opacity="0.98"/>
+      <stop offset="100%" stop-color="#020617" stop-opacity="1"/>
+    </linearGradient>
+
+    <!-- Z / Slash Emblem Gradient -->
+    <linearGradient id="emblemGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="30%" stop-color="#38bdf8"/>
+      <stop offset="70%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#2563eb"/>
+    </linearGradient>
+
+    <!-- Lightning / Zero Glow Filter -->
+    <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#0284c7" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Ambient Glow -->
+  <circle cx="256" cy="240" r="230" fill="url(#bgGlow)"/>
+
+  <!-- Outer Shield Shell -->
+  <g filter="url(#dropShadow)">
+    <!-- Shield Border Contour -->
+    <path d="M 256,44 
+             C 344,44 416,68 416,160 
+             C 416,290 330,388 256,448 
+             C 182,388 96,290 96,160 
+             C 96,68 168,44 256,44 Z" 
+          fill="url(#shieldBorder)"/>
+
+    <!-- Shield Dark Core -->
+    <path d="M 256,58 
+             C 334,58 398,80 398,164 
+             C 398,280 320,370 256,426 
+             C 192,370 114,280 114,164 
+             C 114,80 178,58 256,58 Z" 
+          fill="url(#shieldCore)"/>
+  </g>
+
+  <!-- Inner Cybernetic Circuit Lines (Subtle) -->
+  <path d="M 256,90 L 256,130 M 170,164 L 210,164 M 342,164 L 302,164 M 256,360 L 256,390" 
+        stroke="#0284c7" stroke-width="3" stroke-linecap="round" opacity="0.4"/>
+  <circle cx="256" cy="130" r="4" fill="#38bdf8" opacity="0.6"/>
+  <circle cx="210" cy="164" r="4" fill="#38bdf8" opacity="0.6"/>
+  <circle cx="302" cy="164" r="4" fill="#38bdf8" opacity="0.6"/>
+
+  <!-- Centerpiece: Stylized Glowing 'Z' + Slashed '0' Shield Emblem -->
+  <g filter="url(#neonGlow)">
+    <!-- Top Horizontal Bar of 'Z' -->
+    <path d="M 180,170 L 324,170 C 332,170 338,176 335,184 L 315,224 C 313,228 308,230 304,230 L 230,230 L 318,318 C 324,324 322,334 314,334 L 176,334 C 168,334 162,328 165,320 L 185,280 C 187,276 192,274 196,274 L 270,274 L 182,186 C 176,180 178,170 186,170 Z" 
+          fill="url(#emblemGrad)"/>
+
+    <!-- Dynamic Slashed Energy Core Beam -->
+    <polygon points="274,136 294,136 226,368 206,368" fill="#ffffff" opacity="0.9"/>
+  </g>
+
+  <!-- Shield Highlight Flare -->
+  <path d="M 256,64 C 310,64 380,82 388,140 C 350,110 300,90 256,90 C 212,90 162,110 124,140 C 132,82 202,64 256,64 Z" 
+        fill="#ffffff" opacity="0.12"/>
+</svg>

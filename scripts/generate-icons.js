@@ -7,7 +7,35 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const iconsDir = path.resolve(__dirname, '../icons');
 
-function createPng(width, height, r, g, b) {
+function isInsideShield(nx, ny, scale = 1.0) {
+  // Arched top
+  const topArch = -0.78 * scale - 0.08 * (1 - nx * nx);
+  if (ny < topArch || ny > 0.92 * scale) return false;
+
+  // Curving tapered sides towards bottom tip
+  let maxWidth = 0.82 * scale;
+  if (ny > 0) {
+    const t = ny / (0.92 * scale);
+    maxWidth = 0.82 * scale * Math.max(0, 1 - Math.pow(t, 1.45));
+  }
+  return Math.abs(nx) <= maxWidth;
+}
+
+function isInsideEmblem(nx, ny) {
+  // Stylized Z / Slash
+  // Top bar: ny between -0.45 and -0.25, nx between -0.45 and 0.45
+  if (ny >= -0.45 && ny <= -0.25 && nx >= -0.42 && nx <= 0.42) return true;
+  // Bottom bar: ny between 0.25 and 0.45, nx between -0.45 and 0.45
+  if (ny >= 0.25 && ny <= 0.45 && nx >= -0.42 && nx <= 0.42) return true;
+  // Diagonal slash: line from (0.35, -0.35) to (-0.35, 0.35)
+  // Distance to line nx + ny = 0
+  const d = Math.abs(nx + ny);
+  if (d <= 0.22 && nx >= -0.42 && nx <= 0.42 && ny >= -0.42 && ny <= 0.42) return true;
+
+  return false;
+}
+
+function createPng(width, height) {
   // Signature
   const signature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
 
@@ -17,9 +45,9 @@ function createPng(width, height, r, g, b) {
   ihdr.writeUInt32BE(height, 4);
   ihdr.writeUInt8(8, 8); // bit depth: 8
   ihdr.writeUInt8(6, 9); // color type: 6 (RGBA)
-  ihdr.writeUInt8(0, 10); // compression method
-  ihdr.writeUInt8(0, 11); // filter method
-  ihdr.writeUInt8(0, 12); // interlace method
+  ihdr.writeUInt8(0, 10);
+  ihdr.writeUInt8(0, 11);
+  ihdr.writeUInt8(0, 12);
   const ihdrChunk = createChunk('IHDR', ihdr);
 
   // Scanlines with filter byte 0 (None)
@@ -29,22 +57,48 @@ function createPng(width, height, r, g, b) {
   for (let y = 0; y < height; y++) {
     rawData.writeUInt8(0, offset++); // filter byte
     for (let x = 0; x < width; x++) {
-      // Draw shield icon / rounded badge
-      const nx = (x / width - 0.5) * 2;
-      const ny = (y / height - 0.5) * 2;
-      const dist = Math.sqrt(nx * nx + ny * ny);
+      const nx = (x / (width - 1) - 0.5) * 2;
+      const ny = (y / (height - 1) - 0.5) * 2;
 
-      // Check if inside shield / circle
-      if (dist <= 0.85) {
-        // Gradient badge: vibrant cyan-blue shield
-        const grad = Math.min(1, Math.max(0, 0.5 + ny * 0.4));
-        const red = Math.round(r * (1 - grad * 0.3));
-        const green = Math.round(g * (1 - grad * 0.2));
-        const blue = Math.round(b);
-        rawData.writeUInt8(red, offset++);
-        rawData.writeUInt8(green, offset++);
-        rawData.writeUInt8(blue, offset++);
-        rawData.writeUInt8(255, offset++);
+      const outer = isInsideShield(nx, ny, 1.0);
+      const inner = isInsideShield(nx, ny, 0.82);
+
+      if (outer) {
+        if (!inner) {
+          // Shield Border: Radiant Cyan to Electric Blue gradient
+          const borderT = (ny + 1) / 2;
+          const r = Math.round(14 + 20 * (1 - borderT));
+          const g = Math.round(165 + 40 * (1 - borderT));
+          const b = Math.round(233 + 22 * borderT);
+          rawData.writeUInt8(r, offset++);
+          rawData.writeUInt8(g, offset++);
+          rawData.writeUInt8(b, offset++);
+          rawData.writeUInt8(255, offset++);
+        } else {
+          // Inside Shield Core
+          const emblem = isInsideEmblem(nx, ny);
+          if (emblem) {
+            // Glowing White to Neon Cyan Emblem
+            const embT = (nx + ny + 1) / 2;
+            const r = Math.round(220 + 35 * embT);
+            const g = Math.round(245 + 10 * embT);
+            const b = 255;
+            rawData.writeUInt8(r, offset++);
+            rawData.writeUInt8(g, offset++);
+            rawData.writeUInt8(b, offset++);
+            rawData.writeUInt8(255, offset++);
+          } else {
+            // Dark Cyber Navy Glass core
+            const depth = Math.min(1, Math.max(0, (ny + 0.5) * 0.5));
+            const r = Math.round(15 + 15 * depth);
+            const g = Math.round(23 + 20 * depth);
+            const b = Math.round(42 + 30 * depth);
+            rawData.writeUInt8(r, offset++);
+            rawData.writeUInt8(g, offset++);
+            rawData.writeUInt8(b, offset++);
+            rawData.writeUInt8(255, offset++);
+          }
+        }
       } else {
         // Transparent
         rawData.writeUInt8(0, offset++);
@@ -95,12 +149,12 @@ if (!fs.existsSync(iconsDir)) {
   fs.mkdirSync(iconsDir, { recursive: true });
 }
 
-// Brand color: Royal Ruby Shield (#880015 or #0f766e or #4338ca)
-const sizes = [16, 48, 128];
+// Generate complete icon sizes: 16, 32, 48, 128
+const sizes = [16, 32, 48, 128];
 for (const s of sizes) {
-  const png = createPng(s, s, 37, 99, 235); // Beautiful electric blue (#2563eb)
+  const png = createPng(s, s);
   const filePath = path.join(iconsDir, `icon${s}.png`);
   fs.writeFileSync(filePath, png);
   console.log(`Generated ${filePath} (${s}x${s})`);
 }
-console.log('Icons generated successfully.');
+console.log('Shield emblem icons generated successfully.');
