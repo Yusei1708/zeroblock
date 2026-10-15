@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "ZeroBlock Lite - Manifest V3 Ad-Blocker",
+  "name": "ZeroBlock - Manifest V3 Ad-Blocker",
   "version": "1.0.0",
   "description": "Zero-Config, Plug-and-Play Ad & Tracker Blocker powered by Chrome DeclarativeNetRequest.",
   "permissions": [

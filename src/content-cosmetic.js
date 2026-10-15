@@ -1,5 +1,5 @@
 /**
- * ZeroBlock Lite - Universal Cosmetic Content Script
+ * ZeroBlock - Universal Cosmetic Content Script
  * Injected at document_start to collapse empty ad placeholders,
  * remove anti-adblock overlay locks, and handle dynamic feed ads.
  */

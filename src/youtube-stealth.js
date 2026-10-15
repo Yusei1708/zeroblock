@@ -1,5 +1,5 @@
 /**
- * ZeroBlock Lite - YouTube Stealth Engine
+ * ZeroBlock - YouTube Stealth Engine
  * Invisible, client-side auto-accelerator and ad-skipper for YouTube.
  * Leaves ZERO footprint on window/document globals, evading anti-adblock fingerprinting.
  */

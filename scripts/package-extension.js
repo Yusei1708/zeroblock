@@ -20,7 +20,7 @@ if (!fs.existsSync(distDir)) {
 const manifestPath = path.join(rootDir, 'manifest.json');
 const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'));
 const version = manifest.version || '1.0.0';
-const zipName = `zeroblock-lite-v${version}.zip`;
+const zipName = `zeroblock-v${version}.zip`;
 const zipPath = path.join(distDir, zipName);
 
 // Delete existing zip if present
@@ -28,7 +28,7 @@ if (fs.existsSync(zipPath)) {
   fs.unlinkSync(zipPath);
 }
 
-console.log(`📦 Packaging ZeroBlock Lite v${version}...`);
+console.log(`📦 Packaging ZeroBlock v${version}...`);
 
 // Included runtime files
 const filesToInclude = [

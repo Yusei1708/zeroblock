@@ -1,5 +1,5 @@
 /**
- * ZeroBlock Lite - Background Service Worker (Manifest V3)
+ * ZeroBlock - Background Service Worker (Manifest V3)
  * Handles DeclarativeNetRequest ruleset activation and silent lifecycle management.
  */
 

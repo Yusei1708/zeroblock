@@ -612,7 +612,7 @@ async function build() {
     .filter(s => s && s.length > 1)
     .sort();
 
-  const cosmeticCssContent = `/* ZeroBlock Lite Cosmetic Filtering - Injected at document_start */
+  const cosmeticCssContent = `/* ZeroBlock Cosmetic Filtering - Injected at document_start */
 ${selectorsArray.join(',\n')} {
   display: none !important;
   visibility: hidden !important;

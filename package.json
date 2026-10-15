@@ -1,7 +1,7 @@
 {
-  "name": "zeroblock-lite-mv3",
+  "name": "zeroblock-mv3",
   "version": "1.0.0",
-  "description": "Zero-Config High-Performance Chrome Manifest V3 Ad-Blocker inspired by uBlock Origin Lite",
+  "description": "Zero-Config High-Performance Chrome Manifest V3 Ad-Blocker inspired by uBlock Origin",
   "main": "src/background.js",
   "type": "module",
   "scripts": {
@@ -14,7 +14,7 @@
     "adblock",
     "declarativeNetRequest",
     "manifest-v3",
-    "ublock-lite",
+    "zeroblock",
     "privacy"
   ],
   "author": "Senior Extension Developer",

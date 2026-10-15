@@ -1,12 +1,12 @@
 <p align="center">
-  <img src="assets/logo.svg" alt="ZeroBlock Lite Logo" width="160" height="160" />
+  <img src="assets/logo.svg" alt="ZeroBlock Logo" width="160" height="160" />
 </p>
 
-<h1 align="center">ZeroBlock Lite</h1>
+<h1 align="center">ZeroBlock</h1>
 
 <p align="center">
   <strong>Zero-Config, High-Speed, Anti-Detection Manifest V3 Ad & Tracker Blocker</strong><br>
-  <em>Lấy cảm hứng từ kiến trúc hiện đại của uBlock Origin Lite — Tối ưu hóa đặc biệt cho YouTube và các trang web Việt Nam.</em>
+  <em>Lấy cảm hứng từ kiến trúc hiện đại của uBlock Origin — Tối ưu hóa đặc biệt cho YouTube và các trang web Việt Nam.</em>
 </p>
 
 <p align="center">
@@ -55,7 +55,7 @@
 
 ## 📊 Bảng So Sánh Kiến Trúc
 
-| Tính Năng | Adblock Truyền Thống (MV2) | ZeroBlock Lite (MV3) |
+| Tính Năng | Adblock Truyền Thống (MV2) | ZeroBlock (MV3) |
 |---|---|---|
 | **Cơ chế lọc mạng** | `webRequestBlocking` (Chậm, ngốn CPU) | `declarativeNetRequest` (Chromium C++ Native) |
 | **Tương thích Chrome tương lai** | ❌ Bị Google khai tử | ✅ Tuân thủ MV3 trọn đời |
@@ -111,7 +111,7 @@ zeroblock/
 ### Cách 2: Tải lên Chrome Web Store
 Dự án đã có sẵn file nén phân phối chuẩn tại:
 ```
-dist/zeroblock-lite-v1.0.0.zip
+dist/zeroblock-v1.0.0.zip
 ```
 File này chỉ chứa các file runtime cần thiết, dung lượng siêu nhẹ (~778 KB), đáp ứng 100% chính sách kiểm duyệt của Google Chrome Web Store.
 
