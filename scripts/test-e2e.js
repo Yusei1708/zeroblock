@@ -619,9 +619,11 @@ export async function runTier1(runner) {
   runner.test('T1.F01.2', 'manifest.manifest_version is exactly 3', () => {
     runner.assertEqual(manifest.manifest_version, 3, 'Must be MV3');
   });
-  runner.test('T1.F01.3', 'manifest.permissions contains DNR and DNRWithHostAccess', () => {
-    runner.assert(manifest.permissions.includes('declarativeNetRequest'), 'Has declarativeNetRequest');
-    runner.assert(manifest.permissions.includes('declarativeNetRequestWithHostAccess'), 'Has declarativeNetRequestWithHostAccess');
+  runner.test('T1.F01.3', 'manifest.permissions contains valid DNR permission without mutual exclusivity conflict', () => {
+    const hasDnr = manifest.permissions.includes('declarativeNetRequest') || manifest.permissions.includes('declarativeNetRequestWithHostAccess');
+    runner.assert(hasDnr, 'Has declarativeNetRequest or declarativeNetRequestWithHostAccess');
+    const mutuallyExclusive = manifest.permissions.includes('declarativeNetRequest') && manifest.permissions.includes('declarativeNetRequestWithHostAccess');
+    runner.assert(!mutuallyExclusive, 'Must not declare mutually exclusive DNR permissions');
   });
   runner.test('T1.F01.4', 'manifest.host_permissions contains <all_urls>', () => {
     runner.assert(manifest.host_permissions.includes('<all_urls>') || manifest.host_permissions.includes('*://*/*'), 'Matches all URLs');

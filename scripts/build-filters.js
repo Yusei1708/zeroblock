@@ -514,8 +514,9 @@ async function build() {
               count++;
             }
           }
+          const maxCategoryRules = cat === 'ads' ? 28000 : 35000;
           if (count >= maxFromSource) break;
-          if (compiledRules.length >= 35000) break;
+          if (compiledRules.length >= maxCategoryRules) break;
         }
         console.log(`   ✓ Parsed ${count} active rules from ${src.name}`);
       } else if (src.name.includes('Peter Lowe')) {
@@ -523,7 +524,8 @@ async function build() {
         console.log(`   ⚡ Peter Lowe's list unavailable. Injecting curated tracking seeds immediately...`);
         injectSeeds(SEED_DOMAINS_PRIVACY, idRef, seenPatterns, compiledRules);
       }
-      if (compiledRules.length >= 35000) break;
+      const maxCategoryRules = cat === 'ads' ? 28000 : 35000;
+      if (compiledRules.length >= maxCategoryRules) break;
     }
 
     // Safety net fallback if entire ruleset is empty / offline

@@ -5,7 +5,6 @@
   "description": "Zero-Config, Plug-and-Play Ad & Tracker Blocker powered by Chrome DeclarativeNetRequest.",
   "permissions": [
     "declarativeNetRequest",
-    "declarativeNetRequestWithHostAccess",
     "storage"
   ],
   "host_permissions": [

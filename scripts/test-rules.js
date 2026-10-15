@@ -40,8 +40,12 @@ try {
   if (!manifest.version) reportError('manifest.version is missing');
 
   const perms = new Set(manifest.permissions || []);
-  if (!perms.has('declarativeNetRequest')) reportError('Missing "declarativeNetRequest" permission');
-  if (!perms.has('declarativeNetRequestWithHostAccess')) reportError('Missing "declarativeNetRequestWithHostAccess" permission');
+  if (!perms.has('declarativeNetRequest') && !perms.has('declarativeNetRequestWithHostAccess')) {
+    reportError('Missing "declarativeNetRequest" or "declarativeNetRequestWithHostAccess" permission');
+  }
+  if (perms.has('declarativeNetRequest') && perms.has('declarativeNetRequestWithHostAccess')) {
+    reportError('"declarativeNetRequest" and "declarativeNetRequestWithHostAccess" are mutually exclusive in Chrome MV3');
+  }
 
   const hostPerms = manifest.host_permissions || [];
   if (!hostPerms.includes('<all_urls>') && !hostPerms.includes('*://*/*')) {
