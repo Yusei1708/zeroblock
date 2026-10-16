@@ -169,6 +169,27 @@
     return url.includes('youtubei/v1/player');
   }
 
+  function isAdStatsUrl(input) {
+    let url = '';
+    if (typeof input === 'string') {
+      url = input;
+    } else if (input && typeof input.url === 'string') {
+      url = input.url;
+    } else if (input && typeof input.href === 'string') {
+      url = input.href;
+    } else {
+      try {
+        url = String(input || '');
+      } catch (e) {
+        url = '';
+      }
+    }
+    return url.includes('/api/stats/ads') ||
+           url.includes('/ptracking') ||
+           url.includes('/pagead/') ||
+           url.includes('/get_midroll_info');
+  }
+
   function wrapResponse(res) {
     if (!res) return res;
 
@@ -205,10 +226,17 @@
     return res;
   }
 
-  // Intercept window.fetch for /youtubei/v1/player
+  // Intercept window.fetch for /youtubei/v1/player and ad stats
   if (typeof window !== 'undefined' && typeof window.fetch === 'function') {
     const originalFetch = window.fetch;
     window.fetch = async function(...args) {
+      if (isAdStatsUrl(args[0])) {
+        return new Response(JSON.stringify({ status: 'ok' }), {
+          status: 200,
+          statusText: 'OK',
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
       const isPlayer = isPlayerUrl(args[0]);
       const response = await originalFetch.apply(this, args);
       if (isPlayer) {
@@ -218,7 +246,7 @@
     };
   }
 
-  // Intercept window.XMLHttpRequest for /youtubei/v1/player
+  // Intercept window.XMLHttpRequest for /youtubei/v1/player and ad stats
   if (typeof window !== 'undefined' && typeof window.XMLHttpRequest === 'function') {
     const XHRProto = window.XMLHttpRequest.prototype;
     if (XHRProto && typeof XHRProto.open === 'function') {
@@ -228,6 +256,7 @@
 
       XHRProto.open = function(method, url, ...rest) {
         this._isYtPlayerEndpoint = isPlayerUrl(url);
+        this._isYtAdStatsEndpoint = isAdStatsUrl(url);
         this._prunedResponse = null;
         this._prunedResponseText = null;
         this._lastRawResponse = null;
@@ -355,6 +384,28 @@
             return raw;
           }
         });
+      }
+
+      const origSend = XHRProto.send;
+      if (origSend) {
+        XHRProto.send = function(...args) {
+          if (this._isYtAdStatsEndpoint) {
+            try {
+              Object.defineProperty(this, 'status', { value: 200, writable: true, configurable: true });
+              Object.defineProperty(this, 'statusText', { value: 'OK', writable: true, configurable: true });
+              Object.defineProperty(this, 'readyState', { value: 4, writable: true, configurable: true });
+              Object.defineProperty(this, 'responseText', { value: '{"status":"ok"}', writable: true, configurable: true });
+              Object.defineProperty(this, 'response', { value: { status: 'ok' }, writable: true, configurable: true });
+              setTimeout(() => {
+                this.dispatchEvent(new Event('readystatechange'));
+                this.dispatchEvent(new Event('load'));
+                this.dispatchEvent(new Event('loadend'));
+              }, 0);
+              return;
+            } catch (e) {}
+          }
+          return origSend.apply(this, args);
+        };
       }
     }
   }
@@ -674,6 +725,19 @@
         }
       }
     } catch (e) {}
+
+    // 4. Dismiss "Experiencing interruptions?" notification toast and tooltip
+    try {
+      const interruptionElements = document.querySelectorAll(
+        '.ytp-tooltip, tp-yt-paper-toast, yt-notification-action-renderer, .paper-toast-open, .ytp-ad-message-container, .ytp-bezel'
+      );
+      for (let i = 0; i < interruptionElements.length; i++) {
+        const el = interruptionElements[i];
+        if (el && el.textContent && el.textContent.toLowerCase().includes('experiencing interruptions')) {
+          el.remove();
+        }
+      }
+    } catch (e) {}
   }
 
   /**
@@ -888,6 +952,19 @@
         simulateClick(retryBtn);
       }
     }
+
+    // Dismiss "Experiencing interruptions?" notification toast and tooltip
+    try {
+      const interruptionElements = document.querySelectorAll(
+        '.ytp-tooltip, tp-yt-paper-toast, yt-notification-action-renderer, .paper-toast-open, .ytp-ad-message-container, .ytp-bezel'
+      );
+      for (let i = 0; i < interruptionElements.length; i++) {
+        const el = interruptionElements[i];
+        if (el && el.textContent && el.textContent.toLowerCase().includes('experiencing interruptions')) {
+          el.remove();
+        }
+      }
+    } catch (e) {}
   }
 
   /**

@@ -148,6 +148,17 @@
         for (let i = 0; i < companionAds.length; i++) {
           companionAds[i].remove();
         }
+
+        // Dismiss "Experiencing interruptions?" notification toast and tooltip
+        const interruptionElements = root.querySelectorAll(
+          '.ytp-tooltip, tp-yt-paper-toast, yt-notification-action-renderer, .paper-toast-open, .ytp-ad-message-container, .ytp-bezel'
+        );
+        for (let i = 0; i < interruptionElements.length; i++) {
+          const el = interruptionElements[i];
+          if (el && el.textContent && el.textContent.toLowerCase().includes('experiencing interruptions')) {
+            el.remove();
+          }
+        }
       }
     } catch (e) {
       // Ignore

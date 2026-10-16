@@ -718,6 +718,17 @@ ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-ads"] {
 .ad-interrupting video {
   opacity: 0 !important;
 }
+
+/* YouTube Interruption Notification & Tooltips */
+tp-yt-paper-toast.yt-notification-action-renderer,
+yt-notification-action-renderer,
+.paper-toast-open.yt-notification-action-renderer,
+.paper-toast-open {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
 `;
 
   const cosmeticCssFile = path.join(srcDir, 'cosmetic.css');
