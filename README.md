@@ -13,7 +13,7 @@
   <a href="https://github.com/Yusei1708/zeroblock/releases/tag/v1.0.0"><img src="https://img.shields.io/badge/version-1.0.0-blue.svg?style=for-the-badge&logo=semver" alt="Version 1.0.0" /></a>
   <img src="https://img.shields.io/badge/Manifest-V3%20Compliant-success?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Manifest V3" />
   <img src="https://img.shields.io/badge/DNR%20Rules-60%2C000%2B-indigo?style=for-the-badge&logo=shield" alt="Rules Count" />
-  <img src="https://img.shields.io/badge/Tests-292%2F292%20Passing-brightgreen?style=for-the-badge&logo=checkmarx" alt="Tests" />
+  <img src="https://img.shields.io/badge/Tests-165%2F165%20Passing-brightgreen?style=for-the-badge&logo=checkmarx" alt="Tests" />
   <img src="https://img.shields.io/badge/License-GPL--3.0-orange?style=for-the-badge" alt="License" />
 </p>
 
@@ -38,14 +38,11 @@
   - 🔒 **EasyPrivacy**: Bộ lọc bảo vệ quyền riêng tư, chặn tracker và web telemetry.
   - 🛑 **Peter Lowe's List**: Danh sách máy chủ quảng cáo và theo dõi nguy hại.
 
-### 4. 🥷 YouTube Stealth Engine — Vượt Qua Hệ Thống Anti-Adblock Của Google
-- **Không can thiệp thô bạo vào mạng**: Bảo vệ luồng video của YouTube (`youtubei/v1/player`), tránh tuyệt đối lỗi *"Connect to the internet / You're offline"*.
-- **Cơ chế tua tàng hình độc quyền**:
-  - Khi phát hiện quảng cáo: Tự động **tắt tiếng trong tích tắc** (`muted = true`).
-  - Đẩy tốc độ phát lên cực đại **16.0x** và nhảy nhanh tới cuối đoạn quảng cáo.
-  - Tự động bấm nút **"Skip Ad"** ngay khi xuất hiện trong 25ms.
-  - Tự động gỡ bỏ modal cảnh báo *"Ad blockers are not allowed"* và phục hồi video mượt mà.
-  - **Zero-Footprint**: Chạy trong IIFE khép kín, không gán bất kỳ biến nào vào `window` hay DOM dataset, hoàn toàn tàng hình trước script quét của Google.
+### 4. 🥷 YouTube True Zero-Ads Engine — Không Quảng Cáo, Không Cần Tua
+- **InnerTube API JSON Pruning**: Đánh chặn trực tiếp tại `document_start` (`world: "MAIN"`), bóc tách toàn bộ `adPlacements`, `playerAds`, `adSlots` trong phản hồi `/youtubei/v1/player`. Trình phát hiểu rằng video hoàn toàn không có quảng cáo và phát ngay từ `00:00` (giống tài khoản YouTube Premium).
+- **Triệt tiêu thông báo "Experiencing interruptions?"**: Phản hồi giả lập `200 OK` cho các endpoint telemetry `/api/stats/ads`, `/ptracking`, loại bỏ hiện tượng bị YouTube bóp băng thông hoặc hiện bóng thông báo làm phiền.
+- **Tự động lấp đầy ô trống trang chủ**: Sử dụng CSS `:has()` và DOM reflow để gập triệt để các ô đen trống (`ytd-rich-item-renderer`) trên lưới video YouTube.
+- **Zero-Footprint**: Bảo vệ tuyệt đối quyền riêng tư và danh tính trình duyệt trước các thuật toán phát hiện adblock.
 
 ### 5. 🎭 Cosmetic Filtering Tại `document_start`
 - Nạp CSS ẩn quảng cáo trước khi trang render, triệt tiêu hoàn toàn hiện tượng nháy giật giao diện (CLS - Cumulative Layout Shift).
