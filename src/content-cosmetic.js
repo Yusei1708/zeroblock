@@ -149,6 +149,14 @@
           companionAds[i].remove();
         }
 
+        // Mobile YouTube (m.youtube.com) ad slots & compact promo wrappers
+        const mobileAds = root.querySelectorAll(
+          'ytm-promoted-sparkles-web-renderer, ytm-companion-ad-renderer, ytm-ad-slot-renderer, ytm-inline-ad-renderer, ytm-promoted-video-renderer'
+        );
+        for (let i = 0; i < mobileAds.length; i++) {
+          mobileAds[i].remove();
+        }
+
         // Dismiss "Experiencing interruptions?" notification toast and tooltip
         const interruptionElements = root.querySelectorAll(
           '.ytp-tooltip, tp-yt-paper-toast, yt-notification-action-renderer, .paper-toast-open, .ytp-ad-message-container, .ytp-bezel'
