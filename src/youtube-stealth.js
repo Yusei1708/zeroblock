@@ -169,25 +169,14 @@
     return url.includes('youtubei/v1/player');
   }
 
+  const AD_STATS_REGEX = /\/(?:api\/stats\/ads|ptracking|pagead\/|get_midroll_info)/;
+  const MOCK_OK_BODY = JSON.stringify({ status: 'ok' });
+  const MOCK_OK_HEADERS = { 'Content-Type': 'application/json' };
+
   function isAdStatsUrl(input) {
-    let url = '';
-    if (typeof input === 'string') {
-      url = input;
-    } else if (input && typeof input.url === 'string') {
-      url = input.url;
-    } else if (input && typeof input.href === 'string') {
-      url = input.href;
-    } else {
-      try {
-        url = String(input || '');
-      } catch (e) {
-        url = '';
-      }
-    }
-    return url.includes('/api/stats/ads') ||
-           url.includes('/ptracking') ||
-           url.includes('/pagead/') ||
-           url.includes('/get_midroll_info');
+    if (typeof input === 'string') return AD_STATS_REGEX.test(input);
+    const url = (input && (input.url || input.href)) || '';
+    return typeof url === 'string' && url.length > 0 && AD_STATS_REGEX.test(url);
   }
 
   function wrapResponse(res) {
@@ -231,10 +220,10 @@
     const originalFetch = window.fetch;
     window.fetch = async function(...args) {
       if (isAdStatsUrl(args[0])) {
-        return new Response(JSON.stringify({ status: 'ok' }), {
+        return new Response(MOCK_OK_BODY, {
           status: 200,
           statusText: 'OK',
-          headers: { 'Content-Type': 'application/json' }
+          headers: MOCK_OK_HEADERS
         });
       }
       const isPlayer = isPlayerUrl(args[0]);
