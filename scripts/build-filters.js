@@ -618,6 +618,31 @@ async function build() {
       injectSeeds(seeds, idRef, seenPatterns, compiledRules);
     }
 
+    // Curated YouTube Ad Network & Streaming Rules (R2)
+    if (cat === 'ads') {
+      const YOUTUBE_RULES = [
+        { urlFilter: '||googleads.g.doubleclick.net^', action: 'block', priority: 1 },
+        { urlFilter: '||youtube.com/pagead/*', action: 'block', priority: 1 },
+        { urlFilter: '||youtube.com/api/stats/ads*', action: 'block', priority: 1 },
+        { urlFilter: '||youtube.com/ptracking*', action: 'block', priority: 1 },
+        { urlFilter: '||youtube.com/get_midroll_info*', action: 'block', priority: 1 },
+        { urlFilter: '||youtube.com/youtubei/v1/player*', action: 'allow', priority: 2 },
+        { urlFilter: '||googlevideo.com/*', action: 'allow', priority: 2 }
+      ];
+      for (const yr of YOUTUBE_RULES) {
+        const key = `${yr.action}:${yr.urlFilter}`;
+        if (!seenPatterns.has(key)) {
+          seenPatterns.add(key);
+          compiledRules.push({
+            id: idRef.val++,
+            priority: yr.priority,
+            action: { type: yr.action },
+            condition: { urlFilter: yr.urlFilter }
+          });
+        }
+      }
+    }
+
     // Write JSON file
     const targetFile = path.join(rulesDir, `${cat}_rules.json`);
     fs.writeFileSync(targetFile, JSON.stringify(compiledRules, null, 2), 'utf-8');
@@ -686,6 +711,12 @@ ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-ads"] {
   width: 0 !important;
   margin: 0 !important;
   padding: 0 !important;
+}
+
+/* Instant Ad Frame Suppression (Zero Visual Ad Display) */
+.ad-showing video,
+.ad-interrupting video {
+  opacity: 0 !important;
 }
 `;
 

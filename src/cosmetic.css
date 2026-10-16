@@ -13786,3 +13786,9 @@ ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-ads"] {
   margin: 0 !important;
   padding: 0 !important;
 }
+
+/* Instant Ad Frame Suppression (Zero Visual Ad Display) */
+.ad-showing video,
+.ad-interrupting video {
+  opacity: 0 !important;
+}
