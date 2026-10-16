@@ -1,4 +1,19 @@
-/* ZeroBlock Cosmetic Filtering - Injected at document_start */
+/**
+ * ZeroBlock Cosmetic Filtering Engine
+ * Auto-compiled from uAssets, EasyList, and curated high-impact rules.
+ * Injected at document_start to suppress ad DOM layout shifts and visual flashes.
+ *
+ * SECTION INDEX:
+ * 1. Global Cosmetic Filter Selectors
+ * 2. Structural Iframe & Container Collapse
+ * 3. YouTube Feed Grid, Companion & Masthead Ads
+ * 4. YouTube Instant Ad Frame Suppression (Stealth Fallback)
+ * 5. YouTube Interruption Modals & Toast Bypasses
+ */
+
+/* ==========================================================================
+   1. GLOBAL COSMETIC FILTER SELECTORS
+   ========================================================================== */
 #AC_ad,
 #AD_160,
 #AD_300,
@@ -13747,14 +13762,18 @@ zeus-ad {
   z-index: -9999 !important;
 }
 
-/* Collapse empty ad iframes */
+/* ==========================================================================
+   2. STRUCTURAL IFRAME & CONTAINER COLLAPSE
+   ========================================================================== */
 iframe[src="about:blank"]:not([id]):not([class]),
 iframe[style*="display: none"],
 iframe[style*="visibility: hidden"] {
   display: none !important;
 }
 
-/* YouTube Feed Grid & UI Cleanup */
+/* ==========================================================================
+   3. YOUTUBE FEED GRID, COMPANION & MASTHEAD ADS
+   ========================================================================== */
 ytd-rich-item-renderer:has(ytd-ad-slot-renderer),
 ytd-rich-item-renderer:has(ytd-in-feed-ad-layout-renderer),
 ytd-rich-item-renderer:has(ytd-display-ad-renderer),
@@ -13787,13 +13806,17 @@ ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-ads"] {
   padding: 0 !important;
 }
 
-/* Instant Ad Frame Suppression (Zero Visual Ad Display) */
+/* ==========================================================================
+   4. YOUTUBE INSTANT AD FRAME SUPPRESSION (STEALTH FALLBACK)
+   ========================================================================== */
 .ad-showing video,
 .ad-interrupting video {
   opacity: 0 !important;
 }
 
-/* YouTube Interruption Notification & Tooltips */
+/* ==========================================================================
+   5. YOUTUBE INTERRUPTION MODALS & TOAST NOTIFICATIONS
+   ========================================================================== */
 tp-yt-paper-toast.yt-notification-action-renderer,
 yt-notification-action-renderer,
 .paper-toast-open.yt-notification-action-renderer,
