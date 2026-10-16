@@ -5,6 +5,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import { execSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
@@ -62,10 +63,13 @@ try {
   const stats = fs.statSync(zipPath);
   const sizeMB = (stats.size / (1024 * 1024)).toFixed(2);
   const sizeKB = (stats.size / 1024).toFixed(1);
+  const fileBuffer = fs.readFileSync(zipPath);
+  const sha256 = crypto.createHash('sha256').update(fileBuffer).digest('hex');
 
   console.log(`✅ Extension package generated successfully!`);
   console.log(`   File: ${path.relative(rootDir, zipPath)}`);
   console.log(`   Size: ${sizeMB > 1 ? sizeMB + ' MB' : sizeKB + ' KB'}`);
+  console.log(`   SHA256: ${sha256}`);
   console.log(`   Included files: ${filesToInclude.length}`);
   console.log(`\nReady to upload to Chrome Web Store Developer Dashboard.`);
 } catch (err) {
