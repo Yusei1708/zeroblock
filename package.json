@@ -1,7 +1,7 @@
 {
   "name": "zeroblock-mv3",
   "version": "1.0.0",
-  "description": "Zero-Config High-Performance Chrome Manifest V3 Ad-Blocker inspired by uBlock Origin",
+  "description": "Zero-Config High-Performance Chrome Manifest V3 Ad-Blocker with True Zero-Ads YouTube bypass",
   "main": "src/background.js",
   "type": "module",
   "scripts": {
@@ -16,7 +16,11 @@
     "declarativeNetRequest",
     "manifest-v3",
     "zeroblock",
-    "privacy"
+    "privacy",
+    "innertube",
+    "zero-ads",
+    "youtube-adblock",
+    "stealth-bypass"
   ],
   "author": "Senior Extension Developer",
   "license": "GPL-3.0"
