@@ -5,6 +5,7 @@
   "main": "src/background.js",
   "type": "module",
   "scripts": {
+    "test": "node scripts/test-youtube-suite.js",
     "build:filters": "node scripts/build-filters.js",
     "generate:icons": "node scripts/generate-icons.js",
     "package": "node scripts/package-extension.js",

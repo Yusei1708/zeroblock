@@ -534,6 +534,28 @@ async function build() {
     'ytd-ad-slot-renderer',
     'ytd-in-feed-ad-layout-renderer',
     'ytd-banner-promo-renderer',
+    'ytd-rich-item-renderer:has(ytd-ad-slot-renderer)',
+    'ytd-rich-item-renderer:has(ytd-in-feed-ad-layout-renderer)',
+    'ytd-rich-item-renderer:has(ytd-display-ad-renderer)',
+    'ytd-rich-item-renderer:has(ytd-promoted-sparkles-web-renderer)',
+    'ytd-rich-item-renderer:has(ytd-promoted-video-renderer)',
+    'ytd-rich-item-renderer:has(ytd-brand-video-singleton-renderer)',
+    'ytd-rich-item-renderer:has(ytd-statement-banner-renderer)',
+    'ytd-rich-item-renderer:has(ytd-banner-promo-renderer)',
+    'ytd-rich-section-renderer:has(#masthead-ad)',
+    'ytd-rich-section-renderer:has(ytd-brand-video-shelf-renderer)',
+    'ytd-rich-section-renderer:has(ytd-ad-slot-renderer)',
+    'ytd-rich-section-renderer:has(ytd-in-feed-ad-layout-renderer)',
+    'ytd-rich-section-renderer:has(ytd-statement-banner-renderer)',
+    'ytd-rich-section-renderer:has(ytd-banner-promo-renderer)',
+    '#masthead-ad',
+    'ytd-masthead-ad-v3-renderer',
+    'ytd-mealbar-promo-renderer',
+    'ytd-companion-ad-renderer',
+    'ytd-action-companion-ad-renderer',
+    '#player-ads',
+    '.ytp-ad-companion-slot',
+    'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-ads"]',
     // Vietnam specific ad blocks
     '.eclick-box',
     '[id*="eclick"]',
@@ -631,6 +653,39 @@ iframe[src="about:blank"]:not([id]):not([class]),
 iframe[style*="display: none"],
 iframe[style*="visibility: hidden"] {
   display: none !important;
+}
+
+/* YouTube Feed Grid & UI Cleanup */
+ytd-rich-item-renderer:has(ytd-ad-slot-renderer),
+ytd-rich-item-renderer:has(ytd-in-feed-ad-layout-renderer),
+ytd-rich-item-renderer:has(ytd-display-ad-renderer),
+ytd-rich-item-renderer:has(ytd-promoted-sparkles-web-renderer),
+ytd-rich-item-renderer:has(ytd-promoted-video-renderer),
+ytd-rich-item-renderer:has(ytd-brand-video-singleton-renderer),
+ytd-rich-item-renderer:has(ytd-statement-banner-renderer),
+ytd-rich-item-renderer:has(ytd-banner-promo-renderer),
+ytd-rich-section-renderer:has(#masthead-ad),
+ytd-rich-section-renderer:has(ytd-brand-video-shelf-renderer),
+ytd-rich-section-renderer:has(ytd-ad-slot-renderer),
+ytd-rich-section-renderer:has(ytd-in-feed-ad-layout-renderer),
+ytd-rich-section-renderer:has(ytd-statement-banner-renderer),
+ytd-rich-section-renderer:has(ytd-banner-promo-renderer),
+#masthead-ad,
+ytd-masthead-ad-v3-renderer,
+ytd-mealbar-promo-renderer,
+ytd-companion-ad-renderer,
+ytd-action-companion-ad-renderer,
+#player-ads,
+.ytp-ad-companion-slot,
+ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-ads"] {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  max-height: 0 !important;
+  min-height: 0 !important;
+  width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 `;
 
