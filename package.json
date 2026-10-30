@@ -1,0 +1,39 @@
+{
+  "name": "zeroblock-mv3",
+  "version": "1.0.0",
+  "description": "Zero-Config High-Performance Chrome Manifest V3 Ad-Blocker with True Zero-Ads YouTube bypass",
+  "main": "src/background.js",
+  "type": "module",
+  "scripts": {
+    "test": "node scripts/test-youtube-suite.js",
+    "build:filters": "node scripts/build-filters.js",
+    "generate:icons": "node scripts/generate-icons.js",
+    "package": "node scripts/package-extension.js",
+    "build": "node scripts/build-filters.js && node scripts/package-extension.js"
+  },
+  "keywords": [
+    "adblock",
+    "declarativeNetRequest",
+    "manifest-v3",
+    "zeroblock",
+    "privacy",
+    "innertube",
+    "zero-ads",
+    "youtube-adblock",
+    "stealth-bypass"
+  ],
+  "author": "Senior Extension Developer",
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yusei1708/zeroblock.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Yusei1708/zeroblock/issues"
+  },
+  "homepage": "https://github.com/Yusei1708/zeroblock#readme",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/Yusei1708"
+  }
+}

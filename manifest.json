@@ -1,0 +1,64 @@
+{
+  "manifest_version": 3,
+  "name": "ZeroBlock - Manifest V3 Ad-Blocker",
+  "version": "1.0.0",
+  "description": "Zero-Config, Plug-and-Play Ad & Tracker Blocker powered by Chrome DeclarativeNetRequest.",
+  "permissions": [
+    "declarativeNetRequest",
+    "storage"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "src/background.js",
+    "type": "module"
+  },
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "ads_rules",
+        "enabled": true,
+        "path": "rules/ads_rules.json"
+      },
+      {
+        "id": "privacy_rules",
+        "enabled": true,
+        "path": "rules/privacy_rules.json"
+      }
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "css": [
+        "src/cosmetic.css"
+      ],
+      "js": [
+        "src/content-cosmetic.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": true,
+      "match_about_blank": true
+    },
+    {
+      "matches": [
+        "*://*.youtube.com/*"
+      ],
+      "js": [
+        "src/youtube-stealth.js"
+      ],
+      "run_at": "document_start",
+      "world": "MAIN",
+      "all_frames": true
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
